@@ -7,6 +7,14 @@ var app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+// The app.use below is so we can use static directories in express - it tells express where to look.
+// First parameter is the mount point, second is the location in the file system where it actually is.
+// This tells express the static directory we will use for the files vs embedding
+// it directly in the HTML file, so in the html file, we can use:
+//  <script src="public/assets/js/survey.js" type="text/javascript"></script>
+// and take js files out of html files where they belong
+app.use("/public", express.static(__dirname + "/public"));
+
 // Set the port of our application
 // process.env.PORT lets the port be set by Heroku
 var PORT = process.env.PORT || 3000;
@@ -20,11 +28,13 @@ app.set("view engine", "handlebars");
 
 // Data
 var burgersNotDevoured = [{
+        id: 1,
         name: 'bacon',
         price: 10,
         awesomeness: 3
     },
     {
+        id: 2,
         name: 'greek',
         price: 8,
         awesomeness: 8
@@ -32,11 +42,13 @@ var burgersNotDevoured = [{
 ];
 
 var burgersDevoured = [{
+        id: 3,
         name: 'cheese',
         price: 10,
         awesomeness: 3
     },
     {
+        id: 4,
         name: 'mexican',
         price: 8,
         awesomeness: 8
@@ -57,7 +69,8 @@ app.get("/burgers/:name", function (req, res) {
 
 app.get("/burgers", function (req, res) {
     res.render("burgers", {
-        burgersNotDevoured: burgersNotDevoured
+        burgersNotDevoured: burgersNotDevoured,
+        burgersDevoured: burgersDevoured
     });
 });  
 

@@ -1,8 +1,71 @@
-<ul>
-{{#each burgersNotDevoured }}
-  <li>{{name}}</li>
-  <li>{{price}}</li>
-  <li>{{awesomeness}}</li>
-  <hr>
-{{/each}}
-</ul>
+<section class="container">
+
+    <div class="row d-flex justify-content-center p-2">
+        <div class="col-6-sm">
+            <div class="card">
+                <div class="card-title my-2">
+                    <h4 class="text-center">Not Eaton</h4>
+                </div>
+                <div class="card-block">
+
+                    {{#each burgersNotDevoured}}
+                    <div class="row mb-2 d-flex justify-content-between">
+                        <div class="col-6-sm mx-2">
+                            <button type="button" class="btn btn-primary burgersNotDevoured">{{this.name}}</button>
+                        </div>
+
+                        <div class="col-6-sm mx-2">
+                            <button data-key={{this.id}} type="submit" class="devour btn btn-warning" title="Click to eat the {{this.name}} burger.">Devour>></button>
+                        </div>
+                    </div>
+                    {{/each}}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-6-sm">
+            <div class="card">
+                <div class="card-title my-2">
+                    <h4 class="text-center">Devoured</h4>
+                </div>
+                <div class="card-block">
+
+                    {{#each burgersDevoured}}
+                    <div class="row mb-2 d-flex justify-content-between">
+                        <div class="col-10-sm mx-2">
+                            <button type="button" class="btn btn-secondary burgersDevoured">{{this.name}}</button>
+                        </div>
+
+                        <div class="col-2-sm mx-2">
+                            <button data-key={{this.id}} type="submit" class="delete btn btn-link" title="Click to delete the {{this.name}} burger.">
+                                <i class="fa fa-times" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+                    {{/each}}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row d-flex flex-column align-items-center justify-content-center p-2">
+        <h3><strong>Add a Burger</strong></h3>
+        <form class="form-horizontal" action="#">
+            <div class="form-group row">
+                <label for="burgerNane" class="col-sm-6 col-form-label">Name (Required)</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control-plaintext" id="burgerNane" placeholder="Bacon Cheese">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="photo_url" class="col-sm-6 col-form-label">Photo Image (Optional)</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control-plaintext" id="photo_url" placeholder="http://image.com">
+                </div>
+            </div>
+        </form>
+        <hr>
+    </div>
+
+</section>
