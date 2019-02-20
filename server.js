@@ -4,6 +4,8 @@ var exphbs = require("express-handlebars");
 
 // Create an instance of the express app.
 var app = express();
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 // Set the port of our application
 // process.env.PORT lets the port be set by Heroku
@@ -13,6 +15,7 @@ var PORT = process.env.PORT || 3000;
 app.engine("handlebars", exphbs({
     defaultLayout: "main"
 }));
+
 app.set("view engine", "handlebars");
 
 // Data
@@ -56,16 +59,17 @@ app.get("/burgers", function (req, res) {
     res.render("burgers", {
         burgersNotDevoured: burgersNotDevoured
     });
-});
+});  
 
 app.post("/burgers",  (req, res) => {
-    console.log(req);
+    console.log(req.body);
+    const newBurger = req.body;
 
-    const newBurger = {
-        "name": req.body.name,
-        "price": req.body.price,
-        "awesomeness": req.body.awesomeness
-    };
+    // const newBurger = {
+    //     "name": req.body.name,
+    //     "price": req.body.price,
+    //     "awesomeness": req.body.awesomeness
+    // };
 
     // Add the the burger to not eaten
     burgersNotDevoured.push(newBurger);
