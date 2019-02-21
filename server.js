@@ -1,9 +1,10 @@
 // Dependencies
-var express = require("express");
-var exphbs = require("express-handlebars");
+const express = require("express");
+const exphbs = require("express-handlebars");
+const path = require('path');
 
 // Create an instance of the express app.
-var app = express();
+const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
@@ -13,11 +14,16 @@ app.use(express.json());
 // it directly in the HTML file, so in the html file, we can use:
 //  <script src="public/assets/js/survey.js" type="text/javascript"></script>
 // and take js files out of html files where they belong
-app.use("/public", express.static(__dirname + "/public"));
+app.use("/public", express.static(path.join(__dirname, "public")));
 
 // Set the port of our application
 // process.env.PORT lets the port be set by Heroku
 var PORT = process.env.PORT || 3000;
+
+// Routes
+const burger_router = require(path.join(__dirname, "controllers/burger_controller.js"));
+app.use("/", burger_router);
+
 
 // Set Handlebars as the default templating engine.
 app.engine("handlebars", exphbs({
@@ -25,73 +31,6 @@ app.engine("handlebars", exphbs({
 }));
 
 app.set("view engine", "handlebars");
-
-// Data
-var burgersNotDevoured = [{
-        id: 1,
-        name: 'bacon',
-        price: 10,
-        awesomeness: 3
-    },
-    {
-        id: 2,
-        name: 'greek',
-        price: 8,
-        awesomeness: 8
-    }
-];
-
-var burgersDevoured = [{
-        id: 3,
-        name: 'cheese',
-        price: 10,
-        awesomeness: 3
-    },
-    {
-        id: 4,
-        name: 'mexican',
-        price: 8,
-        awesomeness: 8
-    }
-];
-
-
-// Routes
-app.get("/burgers/:name", function (req, res) {
-    let name = req.params.name;
-
-    burgersNotDevoured.forEach(burger => {
-        if (name == burger.name) {
-            res.render("index", burder);
-        }
-    });
-});
-
-app.get("/burgers", function (req, res) {
-    res.render("burgers", {
-        burgersNotDevoured: burgersNotDevoured,
-        burgersDevoured: burgersDevoured
-    });
-});  
-
-app.post("/burgers",  (req, res) => {
-    console.log(req.body);
-    const newBurger = req.body;
-
-    // const newBurger = {
-    //     "name": req.body.name,
-    //     "price": req.body.price,
-    //     "awesomeness": req.body.awesomeness
-    // };
-
-    // Add the the burger to not eaten
-    burgersNotDevoured.push(newBurger);
-
-    res.render("burgers", {
-        burgersNotDevoured: burgersNotDevoured
-    });
-
-});
 
 // Start our server so that it can begin listening to client requests.
 app.listen(PORT, function () {
