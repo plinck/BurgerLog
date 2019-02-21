@@ -28,8 +28,7 @@ function validateForm() {
 // Extract form data
 function getFormData() {
     let formData = {
-        name: $("#burgerNane").val(),
-        photo_url: $("#photo_url").val()
+        name: $("#burgerName").val(),
     };
     return formData;
 }
@@ -43,17 +42,18 @@ $("#addBurger").on("click", function (event) {
 
         // Create an object for the user"s data
         let burgerData = getFormData();
+        
+        // This is temporary until I get the data coming back working
+        $("#burger-name").text(burgerData.name);
 
         // AJAX post the data to the friends API.
         $.post("/burgers", burgerData, (data) => {
-
-            // Grab the result from the AJAX post so that the best match's name and photo are displayed.
+            console.log(data);
             $("#burger-name").text(data.name);
-            $("#burger-img").attr("src", data.photo_url);
-            $("#burger-img").attr("alt", `${data.photo_url} Photo`);
-
             // Show the bootstrap modal dialog with the best match
-            //$("#results-modal-dialog").modal("toggle");
+            //window.location.reload();
+            $("#results-modal-dialog").modal("toggle");
+
         });
     } else {
         alert("Please fill out all fields");

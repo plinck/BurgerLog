@@ -50,9 +50,7 @@ class Burger {
 
         burgersORM.insertOne(newBurger, () => {
             console.log("added Burger");
-            burgersORM.selectAll(burgers => {
-                myCallback(burgers);
-            });
+            myCallback(newBurger);
         });
     }
 

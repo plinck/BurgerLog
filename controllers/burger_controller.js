@@ -9,6 +9,11 @@ const router = express.Router();
 const Burger = require(path.join(__dirname, `/../model/burger.js`));
 const burger = new Burger();
 
+// Default
+router.get("/", (req, res) => {
+    res.redirect("/burgers");
+});
+
 // Routes
 router.get("/burgers/:name", function (req, res) {
     let name = req.params.name;
@@ -32,11 +37,11 @@ router.post("/burgers", (req, res) => {
     const newBurger = req.body;
 
     // Add the the burger to not eaten
-    burger.addBurger(newBurger, burgers => {
-        console.log(`Re-renderring burgers: ${JSON.stringify(burgers)}`);
-        res.render("burgers", {
-            burgers: burgers
-        });
+    burger.addBurger(newBurger, (results) => {
+        // Send the new burger back via JSON and fix on client 
+
+        // Redirect to show all data with new burger
+        res.redirect("/burgers");
     });
 
 });
