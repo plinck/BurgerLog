@@ -51,6 +51,11 @@ class BurgersORM {
 
     // Change Devour Flag
     // TODO: Change update so it just updates fields passed in object
+    //  Support for multiple statements is disabled for security reasons 
+    // (it allows for SQL injection attacks if values are not properly escaped).
+    // Multiple statement queries
+    // To use this feature you have to enable it for your connection:
+    // var connection = mysql.createConnection({multipleStatements: true});
     devourOne(burger, aCallback) {
         let database = new Database();
         const query_cmd = `
