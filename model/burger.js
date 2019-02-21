@@ -43,14 +43,31 @@ class Burger {
         });
     }
 
-    // add a burger and the call get to get all burgers and return
+    // add a burger and send back the inserted burger
     addBurger(newBurger, myCallback) {
         // When adding a new burger, isDevoured will always be false
         newBurger.isDevoured = false;
 
-        burgersORM.insertOne(newBurger, () => {
+        burgersORM.insertOne(newBurger, (burger) => {
             console.log("added Burger");
-            myCallback(newBurger);
+            myCallback(burger);
+        });
+    }
+
+    // Devour a burger and send back the updated burger
+    devourBurger(updatedBurger, myCallback) {
+        burgersORM.devourOne(updatedBurger, (burger) => {
+            console.log("updated Burger");
+            myCallback(burger);
+        });
+    }
+
+    // Update a burger and send back the updated burger
+    updateBurger(updatedBurger, myCallback) {
+
+        burgersORM.updateOne(updatedBurger, (burger) => {
+            console.log("updated Burger");
+            myCallback(burger);
         });
     }
 

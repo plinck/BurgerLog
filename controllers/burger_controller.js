@@ -37,13 +37,23 @@ router.post("/burgers", (req, res) => {
     const newBurger = req.body;
 
     // Add the the burger to not eaten
-    burger.addBurger(newBurger, (results) => {
+    burger.addBurger(newBurger, (burger) => {
         // Send the new burger back via JSON and fix on client 
-
-        // Redirect to show all data with new burger
-        res.redirect("/burgers");
+        res.json(burger);
     });
 
 });
+
+router.post("/devour", (req, res) => {
+    const updatedBurger = req.body;
+
+    // Add the the burger to not eaten
+    burger.devourBurger(updatedBurger, (burger) => {
+        // Send the new burger back via JSON and fix on client 
+        res.json(burger);
+    });
+
+});
+
 
 module.exports = router;

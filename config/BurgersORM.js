@@ -2,8 +2,7 @@ const Database = require("./DatabasePromise.js");
 
 class BurgersORM {
 
-    constructor() {
-    }
+    constructor() {}
 
     // Get burgers from DB and put in object var
     selectAll(aCallback) {
@@ -37,8 +36,11 @@ class BurgersORM {
             `;
 
         database.query(query_cmd)
-            .then( rows => {
-                aCallback();
+            .then(rows => {
+                let insertedBurger = burger;
+                insertedBurger.id = rows.insertId;
+                console.log(insertedBurger);
+                aCallback(insertedBurger);
             })
             .catch(err => {
                 console.log(`error inserting into burgers ${err}`);
@@ -47,19 +49,57 @@ class BurgersORM {
         database.close();
     }
 
-    // Update
-    updateOne(burger, aCallback) {
+    // Change Devour Flag
+    // TODO: Change update so it just updates fields passed in object
+    devourOne(burger, aCallback) {
         let database = new Database();
         const query_cmd = `
             UPDATE burgers
-            SET name = "${burger.name}",
             SET isDevoured = ${burger.isDevoured}
             WHERE id = ${burger.id};
             `;
 
         database.query(query_cmd)
             .then(rows => {
-                aCallback(rows);
+                let database = new Database();
+                const query_cmd = `
+                SELECT id, name, isDevoured FROM burgers
+                WHERE id = ${burger.id};
+                `;
+                database.query(query_cmd)
+                    .then(rows => {
+                        let updatedBurger = {};
+                        updatedBurger.id = rows[0].id;
+                        updatedBurger.name = rows[0].name;
+                        updatedBurger.isDevoured = rows[0].isDevoured;
+                        aCallback(updatedBurger);
+                    })
+                    .catch(err => {
+                        console.log(`error selecting devoured burgers ${err}`);
+                    });
+                database.close();
+            })
+            .catch(err => {
+                console.log(`error devouring burgers ${err}`);
+            });
+        database.close();
+    }
+
+    // Update
+    updateOne(burger, aCallback) {
+        let database = new Database();
+        const query_cmd = `
+                UPDATE burgers
+                SET name = "${burger.name}",
+                isDevoured = ${burger.isDevoured}
+                WHERE id = ${burger.id};
+                SELECT id, name, isDevoured FROM burgers
+                WHERE id = ${burger.id};    
+                `;
+
+        database.query(query_cmd)
+            .then(rows => {
+                aCallback(rows[0]);
             })
             .catch(err => {
                 console.log(`error updating burgers ${err}`);
@@ -67,6 +107,8 @@ class BurgersORM {
 
         database.close();
     }
+
+
 
     // Delete
     deleteOne(burger, aCallback) {

@@ -6,17 +6,17 @@
                 <div class="card-title my-2">
                     <h4 class="text-center">Not Eaton</h4>
                 </div>
-                <div class="card-block">
+                <div class="card-block isNotDevoured">
 
                     {{#each burgers}}
                     {{#unless this.isDevoured}}
-                    <div class="row mb-2 d-flex justify-content-between">
+                    <div id="{{this.id}}" class="row mb-2 d-flex justify-content-between">
                         <div class="col-6-sm mx-2">
                             <button type="button" class="btn btn-primary burgersNotDevoured">{{this.name}}</button>
                         </div>
 
                         <div class="col-6-sm mx-2">
-                            <button data-key={{this.id}} type="submit" class="devour btn btn-warning" title="Click to eat the {{this.name}} burger.">Devour>></button>
+                            <button data-value={{this.id}} type="submit" class="devour btn btn-warning" title="Click to eat the {{this.name}} burger.">Devour>></button>
                         </div>
                     </div>
                     {{/unless}}
@@ -30,17 +30,16 @@
                 <div class="card-title my-2">
                     <h4 class="text-center">Devoured</h4>
                 </div>
-                <div class="card-block">
-
+                <div class="card-block isDevoured">
                     {{#each burgers}}
                     {{#if this.isDevoured}}
-                    <div class="row mb-2 d-flex justify-content-between">
+                    <div id="{{this.id}}" class="row mb-2 d-flex justify-content-between">
                         <div class="col-10-sm mx-2">
                             <button type="button" class="btn btn-secondary burgersDevoured">{{this.name}}</button>
                         </div>
 
                         <div class="col-2-sm mx-2">
-                            <button data-key={{this.id}} type="submit" class="delete btn btn-link" title="Click to delete the {{this.name}} burger.">
+                            <button data-value={{this.id}} type="submit" class="delete btn btn-link" title="Click to delete the {{this.name}} burger.">
                                 <i class="fa fa-times" aria-hidden="true"></i>
                             </button>
                         </div>
