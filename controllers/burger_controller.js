@@ -23,28 +23,22 @@ router.get("/burgers/:name", function (req, res) {
 router.get("/burgers", function (req, res) {
     burger.getBurgers(burgers => {
         res.render("burgers", {
-            burgersNotDevoured: burgers,
-            burgersDevoured: burgers
+            burgers: burgers
         });
     });
 });
 
 router.post("/burgers", (req, res) => {
-    console.log(req.body);
     const newBurger = req.body;
 
-    // const newBurger = {
-    //     "name": req.body.name,
-    //     "price": req.body.price,
-    //     "awesomeness": req.body.awesomeness
-    // };
-
     // Add the the burger to not eaten
-    burgersORM.addOne(profile);
-
-    res.render("burgers", {
-        burgersNotDevoured: burgersNotDevoured
+    burger.addBurger(newBurger, burgers => {
+        console.log(`Re-renderring burgers: ${JSON.stringify(burgers)}`);
+        res.render("burgers", {
+            burgers: burgers
+        });
     });
+
 });
 
 module.exports = router;

@@ -17,7 +17,7 @@ class Database {
                 port: 3306,
                 user: "plinck",
                 password: "password",
-                database: "burgers_db"
+                database: "burger_db"
             };
         }
         this.connection = mysql.createConnection(config);

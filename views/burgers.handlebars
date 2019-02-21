@@ -8,7 +8,8 @@
                 </div>
                 <div class="card-block">
 
-                    {{#each burgersNotDevoured}}
+                    {{#each burgers}}
+                    {{#unless this.isDevoured}}
                     <div class="row mb-2 d-flex justify-content-between">
                         <div class="col-6-sm mx-2">
                             <button type="button" class="btn btn-primary burgersNotDevoured">{{this.name}}</button>
@@ -18,6 +19,7 @@
                             <button data-key={{this.id}} type="submit" class="devour btn btn-warning" title="Click to eat the {{this.name}} burger.">Devour>></button>
                         </div>
                     </div>
+                    {{/unless}}
                     {{/each}}
                 </div>
             </div>
@@ -30,7 +32,8 @@
                 </div>
                 <div class="card-block">
 
-                    {{#each burgersDevoured}}
+                    {{#each burgers}}
+                    {{#if this.isDevoured}}
                     <div class="row mb-2 d-flex justify-content-between">
                         <div class="col-10-sm mx-2">
                             <button type="button" class="btn btn-secondary burgersDevoured">{{this.name}}</button>
@@ -42,6 +45,7 @@
                             </button>
                         </div>
                     </div>
+                    {{/if}}
                     {{/each}}
                 </div>
             </div>
@@ -50,22 +54,52 @@
 
     <div class="row d-flex flex-column align-items-center justify-content-center p-2">
         <h3><strong>Add a Burger</strong></h3>
-        <form class="form-horizontal" action="#">
+        <form class="form-horizontal form-inputs" action="#">
             <div class="form-group row">
                 <label for="burgerNane" class="col-sm-6 col-form-label">Name (Required)</label>
                 <div class="col-sm-6">
-                    <input type="text" class="form-control-plaintext" id="burgerNane" placeholder="Bacon Cheese">
+                    <input id="burgerNane" type="text" class="form-control-plaintext" placeholder="Bacon Cheese">
                 </div>
             </div>
 
-            <div class="form-group row">
+            {{!-- <div class="form-group row">
                 <label for="photo_url" class="col-sm-6 col-form-label">Photo Image (Optional)</label>
                 <div class="col-sm-6">
-                    <input type="text" class="form-control-plaintext" id="photo_url" placeholder="http://image.com">
+                    <input id="photo_url" type="text" class="form-control-plaintext" placeholder="http://image.com">
                 </div>
-            </div>
+            </div> --}}
+
+            <button id="addBurger" type="submit" class="btn btn-secondary">
+                <i class="fa fa-check-circle" aria-hidden="true">
+                </i>
+                Add Burger
+            </button>
         </form>
         <hr>
+
+        <!-- Bootstrap Modal Dialog for Added Burger -->
+        <!-- See https://getbootstrap.com/docs/4.0/components/modal/ -->
+        <div id="results-modal-dialog" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-dialog-centered">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h2 class="modal-title"><strong>Added Burger</strong></h2>
+                    </div>
+                    <div class="modal-body">
+                        <h2><span>Burger Name: </span> <span id="burger-name"></span></h2>
+                        <h2><span>Burger Image</h2>
+                        <img id="burger-img" width="300px" src="" alt="">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
     </div>
 
 </section>

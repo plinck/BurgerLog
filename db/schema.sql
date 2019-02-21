@@ -1,5 +1,6 @@
 DROP DATABASE IF EXISTS burger_db;
 CREATE DATABASE burger_db;
+
 USE burger_db;
 
 DROP TABLE IF EXISTS burgers;
@@ -8,5 +9,6 @@ DROP TABLE IF EXISTS burgers;
 CREATE TABLE burgers (
     id        INT NOT NULL AUTO_INCREMENT,
     name      VARCHAR(30) NOT NULL,
-    isDevoured Boolean NOT NULL
+    isDevoured Boolean NOT NULL,
+    primary key(id)
 );

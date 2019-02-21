@@ -9,7 +9,7 @@ class BurgersORM {
     selectAll(aCallback) {
         let database = new Database();
         let burgers = [];
-        database.query(`SELECT * FROM burger`)
+        database.query(`SELECT * FROM burgers`)
             .then(rows => {
                 if (rows != undefined) {
                     // map the rows into the array of objects
@@ -23,7 +23,7 @@ class BurgersORM {
                 }
             })
             .catch(err => {
-                console.log(`error inserting into burgers ${err}`);
+                console.log(`error selecting burgers ${err}`);
             });;
         database.close();
     }
@@ -33,15 +33,15 @@ class BurgersORM {
         let database = new Database();
         const query_cmd = `
             INSERT INTO burgers (name, isDevoured)
-            VALUES ("${burger.name}", ${burger.isDevoured}");
+            VALUES ("${burger.name}", ${burger.isDevoured});
             `;
 
         database.query(query_cmd)
             .then( rows => {
-                aCallback(rows);
+                aCallback();
             })
             .catch(err => {
-                console.log(`error updating into burgers ${err}`);
+                console.log(`error inserting into burgers ${err}`);
             });
 
         database.close();
@@ -62,7 +62,7 @@ class BurgersORM {
                 aCallback(rows);
             })
             .catch(err => {
-                console.log(`error inserting into burgers ${err}`);
+                console.log(`error updating burgers ${err}`);
             });
 
         database.close();
