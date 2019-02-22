@@ -107,12 +107,13 @@ $(document).ready(function () {
     // for callback, $(this) gets totally screwed up.  It7 must be how
     // object binds inside.  Holy shit.  That took me forever
     // so event => {},  makes JQuery $(this) get screwed up
-    $(document).on("click", ".devour", function (event) {
+    // Found good workaround
+    $(document).on("click", ".devour", event => {
         event.preventDefault();
 
         // Create an object for the user"s data
         let burgerData = {};
-        burgerData.id = parseInt($(this).attr("data-value"));
+        burgerData.id = parseInt($(event.target).attr("data-value"));
         burgerData.isDevoured = true;
 
         // Remove from not devoured DOM
