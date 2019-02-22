@@ -59,7 +59,7 @@ $(document).ready(function () {
         burgerDiv += `
         <div id="${burger.id}" class="row mb-2 d-flex justify-content-between">
         <div class="col-6-sm mx-2">
-            <button type="button" class="btn btn-primary burgersNotDevoured">${burger.name}</button>
+            <button type="button" class="btn btn-secondary burgersNotDevoured">${burger.name}</button>
         </div>
         <div class="col-2-sm mx-2">
         <button data-value=${burger.id} type="submit" class="delete btn btn-link" title="Click to delete the ${burger.name} burger.">
