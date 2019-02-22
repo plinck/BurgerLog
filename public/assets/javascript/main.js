@@ -131,7 +131,7 @@ $(document).ready(function () {
             $("#results-modal-dialog").modal("toggle");
 
             // This line was to force reload of the handlebars file but its a sucky hack and makes modal useless
-            //window.location.reload();
+            // location.reload();
         });
     });
 });
