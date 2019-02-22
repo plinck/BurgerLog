@@ -107,7 +107,7 @@ $(document).ready(function () {
     // for callback, $(this) gets totally screwed up.  It7 must be how
     // object binds inside.  Holy shit.  That took me forever
     // so event => {},  makes JQuery $(this) get screwed up
-    // Found good workaround
+    // Found good workaround use $(event.target) instead of this
     $(document).on("click", ".devour", event => {
         event.preventDefault();
 
