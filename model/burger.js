@@ -4,7 +4,7 @@ const path = require('path');
 const BurgersORM = require(path.join(__dirname, `/../config/BurgersORM.js`));
 const burgersORM = new BurgersORM();
 
-// Data
+// Test Data - njot needed after SQL/ORM completed
 var burgersNotDevoured = [{
         id: 1,
         name: 'bacon',
@@ -55,11 +55,18 @@ class Burger {
     }
 
     // Devour a burger and send back the updated burger
-    devourBurger(updatedBurger, myCallback) {
-        burgersORM.devourOne(updatedBurger, (burger) => {
+    devourBurger(burger, myCallback) {
+        console.log(burger);
+
+        burgersORM.updateOne("burgers", {isDevoured: true }, {id: burger.id}, (rows) => {
             console.log("updated Burger");
-            myCallback(burger);
+            myCallback(rows[0]);
         });
+
+        // burgersORM.devourOne(burger, (burger) => {
+        //     console.log("updated Burger");
+        //     myCallback(burger);
+        // });
     }
 
     // Update a burger and send back the updated burger
