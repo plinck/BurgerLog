@@ -57,7 +57,10 @@ class Burger {
     // Devour a burger and send back the updated burger
     devourBurger(burger, myCallback) {
 
-        burgersORM.updateOne("burgers", {isDevoured: burger.isDevoured }, {id: burger.id}, (rows) => {
+        let isDevoured = burger.isDevoured ? true : false;
+        console.log(`isDevoured ${isDevoured}, burger.isDevoured: ${burger.isDevoured}`);
+
+        burgersORM.updateOne("burgers", {isDevoured: isDevoured }, {id: burger.id}, (rows) => {
             console.log("updated Burger");
             myCallback(rows[0]);
         });

@@ -9,6 +9,9 @@ class BurgersORM {
         // Had to do this because typeof just does not work
         // object properties get pass like myBool: 'true' and it thinks that is a string
         // its ridiculous
+        if (typeof testVar == "boolean") {
+            return testVar;
+        }
         if (testVar == 'true' || testVar == 'false') {
             return testVar;
         };
