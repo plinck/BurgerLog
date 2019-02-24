@@ -1,19 +1,31 @@
 const Database = require("./DatabasePromise.js");
-
+let database = new Database();
 class BurgersORM {
 
     constructor() {}
 
     // Add quotes to a column value if it is a string
-    addQuotesIfString(x) {
-        return (typeof x === "string") ? `"${x}"` : x;
+    quoteMe(testVar) {
+        // Had to do this because typeof just does not work
+        // object properties get pass like myBool: 'true' and it thinks that is a string
+        // its ridiculous
+        if (testVar == 'true' || testVar == 'false') {
+            return testVar;
+        };
+        if (!isNaN(testVar)) {
+            return testVar;
+        }
+        if (typeof (testVar) == "string") {
+            return (`'${testVar}'`);
+        }
+        return testVar;
     }
 
     select(tableInput, cols, aCallback) {
-        let connection = new Database();
+        let database = new Database();
 
         var queryString = "SELECT * FROM ??";
-        connection.query(queryString, [cols, tableInput])
+        database.query(queryString, [cols, tableInput])
             .then(rows => {
                 aCallback(rows);
             })
@@ -21,14 +33,14 @@ class BurgersORM {
                 console.log(`error selecting with where ${err}`);
             });
 
-        connection.close();
+        database.close();
     }
 
     selectWhere(tableInput, colToSearch, valOfCol, aCallback) {
-        let connection = new Database();
+        let database = new Database();
 
         var queryString = "SELECT * FROM ?? WHERE ?? = ?";
-        connection.query(queryString, [tableInput, colToSearch, valOfCol])
+        database.query(queryString, [tableInput, colToSearch, valOfCol])
             .then(rows => {
                 aCallback(rows);
             })
@@ -36,15 +48,15 @@ class BurgersORM {
                 console.log(`error selecting with where ${err}`);
             });
 
-        connection.close();
+        database.close();
     }
 
     selectAndOrder(whatToSelect, table, orderCol, aCallback) {
-        let connection = new Database();
+        let database = new Database();
 
         var queryString = "SELECT ?? FROM ?? ORDER BY ?? DESC";
         console.log(queryString);
-        connection.query(queryString, [whatToSelect, table, orderCol])
+        database.query(queryString, [whatToSelect, table, orderCol])
             .then(rows => {
                 aCallback(rows);
             })
@@ -52,56 +64,52 @@ class BurgersORM {
                 console.log(`error selecting with where ${err}`);
             });
 
-        connection.close();
+        database.close();
     }
 
     // update object has key/value pairs for column/value
     // where object has column / value for the where clause
     updateOne(table_name, updateObject, whereObject, aCallback) {
-        let connection = new Database();
-        const column_values = [];
+        const columns_values = [];
         const where_clause = [];
 
         // Build update set string
         for (let key in updateObject) {
-            column_values.push(`${key} = ${this.addQuotesIfString(updateObject[key])}`);
+            columns_values.push(`${key} = ${this.quoteMe(updateObject[key])}`);
         }
 
         // Build where clause string
         for (let key in whereObject) {
-            where_clause.push(`${key} = ${this.addQuotesIfString(whereObject[key])}`);
+            where_clause.push(`${key} = ${this.quoteMe(whereObject[key])}`);
         }
 
         // The Update Query
         const queryString = `
         UPDATE ${table_name}
-        SET ${column_values.join(", ")}
+        SET ${columns_values.join(", ")}
         WHERE ${where_clause.join("AND ")};`;
+        console.log(queryString);
 
         // Get the one updated for return
         const returnThisQueryString = `
         SELECT * FROM ${table_name}
         WHERE ${where_clause.join("AND ")};`;
-
-        console.log(queryString);
         console.log(returnThisQueryString);
 
         // First update the row and then get the row that was updated to send back
-        connection.query(queryString)
+        database.query(queryString)
             .then(rows => {
-                let database = new Database();
                 database.query(returnThisQueryString)
                     .then(rows => {
                         aCallback(rows);
+                    })
+                    .catch(err => {
+                        console.log(`error selecting with where ${err}`);
                     });
-                    
-                database.close();
             })
             .catch(err => {
-                console.log(`error selecting with where ${err}`);
+                console.log(`error updating with where ${err}`);
             });
-
-        connection.close();
     }
 
     // Get burgers from DB and put in object var
@@ -154,10 +162,12 @@ class BurgersORM {
     //  Support for multiple statements is disabled for security reasons 
     // (it allows for SQL injection attacks if values are not properly escaped).
     // Multiple statement queries
-    // To use this feature you have to enable it for your connection:
-    // var connection = mysql.createConnection({multipleStatements: true});
+    // To use this feature you have to enable it for your database:
+    // var database = mysql.createdatabase({multipleStatements: true});
     devourOne(burger, aCallback) {
         let database = new Database();
+        console.log(burger);
+
         const query_cmd = `
             UPDATE burgers
             SET isDevoured = ${burger.isDevoured}

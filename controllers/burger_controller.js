@@ -45,7 +45,6 @@ router.post("/burgers", (req, res) => {
 });
 
 router.post("/devour", (req, res) => {
-    console.log(req.body);
     const updatedBurger = req.body;
 
     // Add the the burger to not eaten
