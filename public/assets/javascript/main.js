@@ -63,7 +63,7 @@ $(document).ready(function () {
         </div>
         <div class="col-2-sm mx-2">
         <button data-value=${burger.id} type="submit" class="delete btn btn-link" title="Click to delete the ${burger.name} burger.">
-            <i class="fa fa-times" aria-hidden="true"></i>
+            <i data-value=${burger.id} class="fa fa-times" aria-hidden="true"></i>
         </button>
         </div>
         `;
@@ -119,19 +119,48 @@ $(document).ready(function () {
         // Remove from not devoured DOM
         $(`#${burgerData.id}`).remove();
 
-        // AJAX post the data 
-        // NOTE: Using POST vs put since PUT isnt supported on all browsers (or the pure $ function)
-        $.post("/devour", burgerData, (data) => {
-            console.log(data);
-            // render to end of devoured list
-            burgerRenderDevoured(data);
+        // AJAX PUT for update
+        $.ajax({
+            type: 'PUT',
+            url: '/burgers',
+            data: burgerData,
+            success: (data) => {
+                console.log(data);
+                // render to end of devoured list
+                burgerRenderDevoured(data);
 
-            $("#burger-name").text(data.name);
-            // Show the bootstrap modal dialog
-            $("#results-modal-dialog").modal("toggle");
+                $("#burger-name").text(data.name);
+                // Show the bootstrap modal dialog
+                $("#results-modal-dialog").modal("toggle");
 
-            // This line was to force reload of the handlebars file but its a sucky hack and makes modal useless
-            // location.reload();
+                // This line was to force reload of the handlebars file but its a sucky hack and makes modal useless
+                // location.reload();
+            }
         });
     });
+
+    // DELETE
+    $(document).on("click", ".delete", event => {
+        event.preventDefault();
+
+        // Create an object for the user"s data
+        let burgerData = {};
+        burgerData.id = parseInt($(event.target).attr("data-value"));
+
+        // Remove from not devoured DOM
+        $(`#${burgerData.id}`).remove();
+
+        // AJAX PUT for update
+        $.ajax({
+            type: 'DELETE',
+            url: `/burgers/${burgerData.id}`,
+            data: burgerData,
+            success: () => {
+                console.log("Deleted");
+                // This line was to force reload of the handlebars file but its a sucky hack and makes modal useless
+                // location.reload();
+            }
+        });
+    });
+
 });

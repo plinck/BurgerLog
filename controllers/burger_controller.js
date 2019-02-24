@@ -5,8 +5,8 @@ const path = require('path');
 // Create an instance of Router
 const router = express.Router();
 
-// Create an instance of BurgersORM
-const Burger = require(path.join(__dirname, `/../model/burger.js`));
+// Create an instance of burger
+const Burger = require(path.join(__dirname, `/../model/Burger.js`));
 const burger = new Burger();
 
 // Default
@@ -44,16 +44,26 @@ router.post("/burgers", (req, res) => {
 
 });
 
-router.post("/devour", (req, res) => {
+router.put("/burgers", (req, res) => {
     const updatedBurger = req.body;
 
     // Add the the burger to not eaten
-    burger.devourBurger(updatedBurger, (burger) => {
+    burger.updateBurger(updatedBurger, (burger) => {
         // Send the new burger back via JSON and fix on client 
         res.json(burger);
     });
 
 });
+
+router.delete("/burgers/:id", (req, res) => {
+    const deleteId = parseInt(req.params.id);
+    // Delete the the burger to
+    burger.deleteBurger({id: deleteId}, () => {
+        res.end();
+    });
+
+});
+
 
 
 module.exports = router;

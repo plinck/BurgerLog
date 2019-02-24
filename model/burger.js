@@ -48,9 +48,18 @@ class Burger {
         // When adding a new burger, isDevoured will always be false
         newBurger.isDevoured = false;
 
-        burgersORM.insertOne(newBurger, (burger) => {
-            console.log("added Burger");
-            myCallback(burger);
+        burgersORM.insertOne("burgers", newBurger, (rows) => {
+            myCallback(rows[0]);
+        });
+    }
+
+    // Delete a burger
+    deleteBurger(burger, myCallback) {
+        burgersORM.deleteOne("burgers", {
+            id: burger.id
+        }, (rows) => {
+            console.log(`deleted Burger`);
+            myCallback();
         });
     }
 
@@ -60,26 +69,24 @@ class Burger {
         let isDevoured = burger.isDevoured ? true : false;
         console.log(`isDevoured ${isDevoured}, burger.isDevoured: ${burger.isDevoured}`);
 
-        burgersORM.updateOne("burgers", {isDevoured: isDevoured }, {id: burger.id}, (rows) => {
-            console.log("updated Burger");
+        burgersORM.updateOne("burgers", {
+            isDevoured: isDevoured
+        }, {
+            id: burger.id
+        }, (rows) => {
             myCallback(rows[0]);
         });
-
-        // burgersORM.devourOne(burger, (burger) => {
-        //     console.log("updated Burger");
-        //     myCallback(burger);
-        // });
     }
 
     // Update a burger and send back the updated burger
-    updateBurger(updatedBurger, myCallback) {
+    updateBurger(burger, myCallback) {
 
-        burgersORM.updateOne(updatedBurger, (burger) => {
-            console.log("updated Burger");
-            myCallback(burger);
+        burgersORM.updateOne("burgers", burger, {
+            id: burger.id
+        }, (rows) => {
+            myCallback(rows[0]);
         });
     }
-
-}
+} // End Class
 
 module.exports = Burger;
