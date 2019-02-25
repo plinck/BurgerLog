@@ -29,6 +29,8 @@
     * ![5](images/db5.png)
     * ![6](images/db6.png)
 
+4. You MUST configgure the Google Cloud SQL API as well (or you get lots of hard to understand errors)
+
 4. Configure Connection in javascript code
 
     * configure `.env` file
@@ -62,3 +64,5 @@
     * Make sure all dependencies are up to date in package.json (using `npm install`)
     * `gcloud config set project paullinck-burgerlog`
     * `gcloud app deploy`
+    * Run app using `gcloud app browse`
+    * View Logs using `gcloud app logs tail -s default`

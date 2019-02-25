@@ -28,6 +28,9 @@ class BurgersORM {
 
     // Select 
     select(tableInput, col, aCallback) {
+        // test with new connedtion in case other one gets corrupt
+        // let connection = new Database();
+
         var queryString = "SELECT ?? FROM ??";
         database.query(queryString, [col, tableInput])
             .then(rows => {
@@ -36,6 +39,7 @@ class BurgersORM {
             .catch(err => {
                 console.log(`error selecting with where ${err}`);
             });
+        // connection.close();
     }
 
     // select where
