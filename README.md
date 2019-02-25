@@ -8,7 +8,7 @@ This application is a burger logger using MySQL, Node, Express, Handlebars and a
 
 I deployed to Google Cloud Platform (not Heroku) since I already reached my limit on Heroku apps.  I have outlined the steps for deploying app and DB to GCP.
 
-* [Deployment Steps](https://github.com/plinck/BurgerLog/GCP/)
+* [Deployment Steps](GCP/)
 
 ### Design
 
