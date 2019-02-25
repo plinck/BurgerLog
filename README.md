@@ -1,4 +1,4 @@
-# Node Express Handlebars
+# Burger Log Node Express Handlebars / Google Cloud Platform
 
 ## Overview
 
@@ -6,7 +6,9 @@ This application is a burger logger using MySQL, Node, Express, Handlebars and a
 
 ### Note
 
-When trying to connect remotely to your Heroku database on an open network such as a coffee shop, library, or even your University WiFi, it will be blocked. If you are experiencing a Heroku connection error, this could be why.
+I deployed to Google Cloud Platform (not Heroku) since I already reached my limit on Heroku apps.  I have outlined the steps for deploying app and DB to GCP.
+
+* [Deployment Steps](https://github.com/plinck/BurgerLog/GCP/)
 
 ### Design
 

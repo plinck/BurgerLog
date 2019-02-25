@@ -8,12 +8,7 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// The app.use below is so we can use static directories in express - it tells express where to look.
-// First parameter is the mount point, second is the location in the file system where it actually is.
-// This tells express the static directory we will use for the files vs embedding
-// it directly in the HTML file, so in the html file, we can use:
-//  <script src="public/assets/js/survey.js" type="text/javascript"></script>
-// and take js files out of html files where they belong
+//make public available to client
 app.use("/public", express.static(path.join(__dirname, "public")));
 
 // Set the port of our application

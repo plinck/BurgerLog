@@ -1,3 +1,6 @@
+"use strict";
+// The controller gets the outes and calls burger to do burger and business logic
+
 const express = require("express");
 const validUrl = require("valid-url");
 const path = require('path');

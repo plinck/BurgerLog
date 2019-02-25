@@ -146,6 +146,7 @@ class BurgersORM {
             });
     }
 
+    // Delete
     deleteOne(table_name, whereObject, aCallback) {
         const where_clause = [];
 
@@ -169,6 +170,7 @@ class BurgersORM {
             });
     }
 
+    // just for tesrting, unused in final app
     // Get burgers from DB and put in object var
     selectAll(aCallback) {
         let burgers = [];
@@ -190,7 +192,7 @@ class BurgersORM {
             });;
     }
 
-    // Add
+    // Insert - just for tesrting, unused in final app
     insertBurger(burger, aCallback) {
         const query_cmd = `
             INSERT INTO burgers (name, isDevoured)
@@ -209,6 +211,7 @@ class BurgersORM {
             });
     }
 
+    // just for tesrting, unused in final app
     // Change Devour Flag
     // TODO: Change update so it just updates fields passed in object
     //  Support for multiple statements is disabled for security reasons 

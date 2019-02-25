@@ -1,5 +1,9 @@
 # Creation Steps
 
+0. You musty first install Google Cloud Platform CLI
+
+    * for MAC see https://cloud.google.com/sdk/docs/quickstart-macos
+
 1. Create Google Cloud Platform (GCP) Project
 
     * `gcloud projects create paullinck-burgerlog`
@@ -7,23 +11,23 @@
 2. Enable AppEngine for the project
 
     * select location `us-central`
-    * ![1](GCP/images/step1.png)
+    * ![1](images/step1.png)
     * Wait ...
-    * ![2](GCP/images/step2.png)
+    * ![2](images/step2.png)
     * Start Configuring for Node.js
-    * ![3](GCP/images/step3.png)
+    * ![3](images/step3.png)
     * Pick node.js
-    * ![4](GCP/images/step4.png)
+    * ![4](images/step4.png)
     * Wait ...
-    * ![5](GCP/images/step5.png)
+    * ![5](images/step5.png)
 
 3. Setup Database
 
-    * ![1](GCP/images/db1.png)
-    * ![2](GCP/images/db2.png)
-    * ![4](GCP/images/db4.png)
-    * ![5](GCP/images/db5.png)
-    * ![6](GCP/images/db6.png)
+    * ![1](images/db1.png)
+    * ![2](images/db2.png)
+    * ![4](images/db4.png)
+    * ![5](images/db5.png)
+    * ![6](images/db6.png)
 
 4. Configure Connection in javascript code
 
@@ -52,3 +56,9 @@
         }
         this.connection = mysql.createConnection(config);
 ```
+
+5. Deploy to Google Cloud (note this takes several minutes)
+
+    * Make sure all dependencies are up to date in package.json (using `npm install`)
+    * `gcloud config set project paullinck-burgerlog`
+    * `gcloud app deploy`
