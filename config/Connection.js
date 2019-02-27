@@ -24,7 +24,7 @@ class Connection {
             config = {
                 host: "localhost",
                 port: 3306,
-                user: "plinck",
+                user: "root",
                 password: "password",
                 database: "burger_db"
             };
