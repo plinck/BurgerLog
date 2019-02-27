@@ -1,6 +1,6 @@
-const Database = require("./DatabasePromise.js");
-let database = new Database();
-class BurgersORM {
+const Connection = require("./Connection.js");
+let connection = new Connection();
+class Orm {
 
     constructor() {}
 
@@ -28,11 +28,8 @@ class BurgersORM {
 
     // Select 
     select(tableInput, col, aCallback) {
-        // test with new connedtion in case other one gets corrupt
-        // let connection = new Database();
-
         var queryString = "SELECT ?? FROM ??";
-        database.query(queryString, [col, tableInput])
+        connection.query(queryString, [col, tableInput])
             .then(rows => {
                 aCallback(rows);
             })
@@ -45,7 +42,7 @@ class BurgersORM {
     // select where
     selectWhere(tableInput, colToSearch, valOfCol, aCallback) {
         var queryString = "SELECT * FROM ?? WHERE ?? = ?";
-        database.query(queryString, [tableInput, colToSearch, valOfCol])
+        connection.query(queryString, [tableInput, colToSearch, valOfCol])
             .then(rows => {
                 aCallback(rows);
             })
@@ -58,7 +55,7 @@ class BurgersORM {
     selectAndOrder(whatToSelect, table, orderCol, aCallback) {
         var queryString = "SELECT ?? FROM ?? ORDER BY ?? DESC";
         console.log(queryString);
-        database.query(queryString, [whatToSelect, table, orderCol])
+        connection.query(queryString, [whatToSelect, table, orderCol])
             .then(rows => {
                 aCallback(rows);
             })
@@ -96,9 +93,9 @@ class BurgersORM {
         WHERE ${where_clause.join("AND ")};`;
 
         // First update the row and then get the row that was updated to send back
-        database.query(queryString)
+        connection.query(queryString)
             .then(rows => {
-                database.query(returnThisQueryString)
+                connection.query(returnThisQueryString)
                     .then(rows => {
                         aCallback(rows);
                     })
@@ -134,10 +131,10 @@ class BurgersORM {
         WHERE id = ?;`;
 
         // First update the row and then get the row that was updated to send back
-        database.query(queryString)
+        connection.query(queryString)
             .then(rows => {
                 let insertId = rows.insertId;
-                database.query(returnThisQueryString, [insertId])
+                connection.query(returnThisQueryString, [insertId])
                     .then(rows => {
                         aCallback(rows);
                     })
@@ -165,7 +162,7 @@ class BurgersORM {
         WHERE ${where_clause.join("AND ")};`;
 
         // First update the row and then get the row that was updated to send back
-        database.query(queryString)
+        connection.query(queryString)
             .then(rows => {
                 let affectedRows = rows.affectedRows;
             })
@@ -178,7 +175,7 @@ class BurgersORM {
     // Get burgers from DB and put in object var
     selectAll(aCallback) {
         let burgers = [];
-        database.query(`SELECT * FROM burgers`)
+        connection.query(`SELECT * FROM burgers`)
             .then(rows => {
                 if (rows != undefined) {
                     // map the rows into the array of objects
@@ -203,7 +200,7 @@ class BurgersORM {
             VALUES ("${burger.name}", ${burger.isDevoured});
             `;
 
-        database.query(query_cmd)
+        connection.query(query_cmd)
             .then(rows => {
                 let insertedBurger = burger;
                 insertedBurger.id = rows.insertId;
@@ -221,8 +218,8 @@ class BurgersORM {
     //  Support for multiple statements is disabled for security reasons 
     // (it allows for SQL injection attacks if values are not properly escaped).
     // Multiple statement queries
-    // To use this feature you have to enable it for your database:
-    // var database = mysql.createdatabase({multipleStatements: true});
+    // To use this feature you have to enable it for your connection:
+    // var connection = mysql.createdatabase({multipleStatements: true});
     devourOne(burger, aCallback) {
         console.log(burger);
 
@@ -232,14 +229,13 @@ class BurgersORM {
             WHERE id = ${burger.id};
             `;
 
-        database.query(query_cmd)
+        connection.query(query_cmd)
             .then(rows => {
-                let database = new Database();
                 const query_cmd = `
                 SELECT id, name, isDevoured FROM burgers
                 WHERE id = ${burger.id};
                 `;
-                database.query(query_cmd)
+                connection.query(query_cmd)
                     .then(rows => {
                         let updatedBurger = {};
                         updatedBurger.id = rows[0].id;
@@ -248,7 +244,6 @@ class BurgersORM {
                         aCallback(updatedBurger);
                     });
 
-                database.close();
             })
             .catch(err => {
                 console.log(`error devouring burgers ${err}`);
@@ -257,4 +252,4 @@ class BurgersORM {
 
 }
 
-module.exports = BurgersORM;
+module.exports = Orm;

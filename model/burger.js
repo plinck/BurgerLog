@@ -3,16 +3,16 @@ const path = require('path');
 // This *model* contains data and business logic for the app 
 // controller calls this after getting correct route
 
-// Create an instance of BurgersORM
-const BurgersORM = require(path.join(__dirname, `/../config/BurgersORM.js`));
-const burgersORM = new BurgersORM();
+// Create an instance of Orm
+const Orm = require(path.join(__dirname, `/../config/Orm.js`));
+const orm = new Orm();
 
 class Burger {
 
     constructor() {}
 
     getBurgers(aCallback) {
-        burgersORM.select("burgers", "*", burgers => {
+        orm.select("burgers", "*", burgers => {
             aCallback(burgers);
         });
     }
@@ -22,14 +22,14 @@ class Burger {
         // When adding a new burger, isDevoured will always be false
         newBurger.isDevoured = false;
 
-        burgersORM.insertOne("burgers", newBurger, (rows) => {
+        orm.insertOne("burgers", newBurger, (rows) => {
             myCallback(rows[0]);
         });
     }
 
     // Delete a burger
     deleteBurger(burger, myCallback) {
-        burgersORM.deleteOne("burgers", {
+        orm.deleteOne("burgers", {
             id: burger.id
         }, (rows) => {
             console.log(`deleted Burger`);
@@ -43,7 +43,7 @@ class Burger {
         let isDevoured = burger.isDevoured ? true : false;
         console.log(`isDevoured ${isDevoured}, burger.isDevoured: ${burger.isDevoured}`);
 
-        burgersORM.updateOne("burgers", {
+        orm.updateOne("burgers", {
             isDevoured: isDevoured
         }, {
             id: burger.id
@@ -55,7 +55,7 @@ class Burger {
     // Update a burger and send back the updated burger
     updateBurger(burger, myCallback) {
 
-        burgersORM.updateOne("burgers", burger, {
+        orm.updateOne("burgers", burger, {
             id: burger.id
         }, (rows) => {
             myCallback(rows[0]);

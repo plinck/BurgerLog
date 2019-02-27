@@ -1,11 +1,11 @@
 const mysql = require('mysql');
 require("dotenv").config();
 
-class Database {
+class Connection {
     constructor() {
         let config;
         if (process.env.JAWSDB_URL) {
-            // Database is JawsDB on Heroku
+            // Connection is JawsDB on Heroku
             console.log("Using JAWSDB");
             config = process.env.JAWSDB_URL;
             // Google Cloud Platform Connection
@@ -19,7 +19,7 @@ class Database {
             };
             // Local DB Connection
         } else {
-            // Database is local
+            // Connection is local
             console.log("Using Local DB");
             config = {
                 host: "localhost",
@@ -67,4 +67,4 @@ class Database {
     }
 }
 
-module.exports = Database;
+module.exports = Connection;
