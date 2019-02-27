@@ -1,3 +1,119 @@
-<h1>{{name}}</h1>
-<h2>${{price}}</h2>
-<h2>Awesomeness: {{awesomeness}}</h2>
+<section class="container">
+
+    <div class="row d-flex justify-content-center p-2">
+        <div class="col-6-sm mx-2">
+            <div class="card">
+                <div class="card-title my-2">
+                    <h4 class="text-center">Not Devoured Yet</h4>
+                </div>
+                <div class="card-block isNotDevoured">
+
+                    {{#each burgers}}
+                    {{#unless this.isDevoured}}
+                    <div id="{{this.id}}" class="row mb-2 d-flex justify-content-between">
+                        <div class="col-6-sm mx-2">
+                            <button type="button" class="btn btn-primary burgersNotDevoured">{{this.name}}</button>
+                        </div>
+
+                        <div class="col-6-sm mx-2">
+                            <button data-value={{this.id}} type="submit" class="devour btn btn-warning" title="Click to eat the {{this.name}} burger.">Devour>></button>
+                        </div>
+                    </div>
+                    {{/unless}}
+                    {{/each}}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-6-sm mx-2">
+            <div class="card">
+                <div class="card-title my-2">
+                    <h4 class="text-center">Devoured</h4>
+                </div>
+                <div class="card-block isDevoured">
+                    {{#each burgers}}
+                    {{#if this.isDevoured}}
+                    <div id="{{this.id}}" class="row mb-2 d-flex justify-content-between">
+                        <div class="col-10-sm mx-2">
+                            <button type="button" class="btn btn-secondary burgersDevoured">{{this.name}}</button>
+                        </div>
+
+                        <div class="col-2-sm mx-2">
+                            <button data-value={{this.id}} type="submit" class="delete btn btn-link" title="Click to delete the {{this.name}} burger.">
+                                <i data-value={{this.id}} class="fa fa-times" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+                    {{/if}}
+                    {{/each}}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row d-flex flex-column align-items-center justify-content-center p-2">
+
+        <div class="col-12-sm">
+            <div class="card">
+                <div class="card-title my-2">
+                    <h4 class="text-center">Add a Burger</h4>
+                </div>
+                <div class="card-block">
+                    <form class="form-horizontal form-inputs" action="#">
+                        <div class="form-group row m-4">
+                            <label for="burgerName" class="col-sm-6 col-form-label">Name (Required)</label>
+                            <div class="col-sm-6">
+                                <input id="burgerName" type="text" class="form-control-plaintext" placeholder="Bacon Cheese">
+                            </div>
+                        </div>
+                        <div class="col text-center">
+                            <button id="addBurger" type="submit" class="btn btn-secondary">
+                                <i class="fa fa-check-circle" aria-hidden="true">
+                                </i>
+                                Add a Burger
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        {{!-- <h3><strong>Add a Burger</strong></h3>
+        <form class="form-horizontal form-inputs" action="#">
+            <div class="form-group row">
+                <label for="burgerName" class="col-sm-6 col-form-label">Name (Required)</label>
+                <div class="col-sm-6">
+                    <input id="burgerName" type="text" class="form-control-plaintext" placeholder="Bacon Cheese">
+                </div>
+            </div>
+            <button id="addBurger" type="submit" class="btn btn-secondary">
+                <i class="fa fa-check-circle" aria-hidden="true">
+                </i>
+                Add Burger
+            </button>
+        </form>
+        <hr> --}}
+
+        <!-- Bootstrap Modal Dialog for Added Burger -->
+        <!-- See https://getbootstrap.com/docs/4.0/components/modal/ -->
+        <div id="results-modal-dialog" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-dialog-centered">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h2 class="modal-title"><strong>Burger</strong></h2>
+                    </div>
+                    <div class="modal-body">
+                        <h2><span>Burger Name: </span> <span id="burger-name"></span></h2>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</section>

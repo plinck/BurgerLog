@@ -12,25 +12,14 @@ const router = express.Router();
 const Burger = require(path.join(__dirname, `/../model/Burger.js`));
 const burger = new Burger();
 
-// Default
+// Default Route
 router.get("/", (req, res) => {
     res.redirect("/burgers");
 });
 
-// Routes
-router.get("/burgers/:name", function (req, res) {
-    let name = req.params.name;
-
-    burgersNotDevoured.forEach(burger => {
-        if (name == burger.name) {
-            res.render("index", burder);
-        }
-    });
-});
-
 router.get("/burgers", function (req, res) {
     burger.getBurgers(burgers => {
-        res.render("burgers", {
+        res.render("index", {
             burgers: burgers
         });
     });
@@ -66,7 +55,5 @@ router.delete("/burgers/:id", (req, res) => {
     });
 
 });
-
-
 
 module.exports = router;
