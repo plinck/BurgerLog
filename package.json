@@ -4,6 +4,7 @@
   "description": "Tracks Burgers Devoured",
   "main": "server.js",
   "scripts": {
+    "production": "node server",
     "test": "nodemon server"
   },
   "author": "Paul Linck",
