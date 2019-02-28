@@ -24,15 +24,21 @@ class Connection {
             config = {
                 host: "localhost",
                 port: 3306,
-                user: "root",
-                password: "password",
-                database: "burger_db"
+                user: process.env.SQL_USER,
+                password: process.env.SQL_PASSWORD,
+                database: process.env.SQL_DATABASE
             };
         }
-
+        this.logConnection(config);
         this.startConnection(config);
     }
 
+    logConnection(config) {
+        console.log(`Connection: ${JSON.stringify(config)}`);
+    }
+
+    // This method restarts the connection when it fals.  The connectionn GCP got corrupted
+    // a couple times and so I wrote thisto restart the connection if it fails
     startConnection(config) {
         console.error('CONNECTING');
 
@@ -40,13 +46,13 @@ class Connection {
         this.connection.connect(function (err) {
             if (err) {
                 console.error('CONNECT FAILED', err.code);
-                this.startConnection();
+                this.startConnection(config);
             } else
                 console.error('CONNECTED');
         });
         this.connection.on('error', function (err) {
             if (err.fatal)
-                startConnection();
+                this.startConnection(config);
         });
 
     }
