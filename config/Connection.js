@@ -2,7 +2,7 @@ const mysql = require('mysql');
 require("dotenv").config();
 let env = process.env.NODE_ENV || 'development';
 // All configurations
-let appConfigs = require(__dirname + '/config.js');
+let appConfigs = require(__dirname + '/config.json');
 
 class Connection {
     constructor() {
@@ -22,9 +22,9 @@ class Connection {
                 console.log("Using GCP DB");
                 config = {
                     socketPath: `/cloudsql/${process.env.INSTANCE_CONNECTION_NAME}`,
-                    user: appConfig.username,
-                    password: appConfig.password,
-                    database: appConfig.database
+                    user: process.env[appConfig.username],
+                    password: process.env[appConfig.password],
+                    database: process.env[appConfig.database]
                 };
                 break;
                 // Local
@@ -33,9 +33,9 @@ class Connection {
                 config = {
                     host: appConfig.host,
                     port: appConfig.port,
-                    user: appConfig.username,
-                    password: appConfig.password,
-                    database: appConfig.database
+                    user: process.env[appConfig.username],
+                    password: process.env[appConfig.password],
+                    database: process.env[appConfig.database]
                 };
                 break;
         }
