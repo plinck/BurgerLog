@@ -18,28 +18,24 @@ class Connection {
                 console.log("Using JAWSDB");
                 break;
                 // GCP DB on Google Cloud
-            case "INSTANCE_CONNECTION_NAME":
-                console.log("Using GCP DB");
-                // get common stuff
-                config = appConfig;
-                // override env variable items
-                config.socketPath = `/cloudsql/${process.env.INSTANCE_CONNECTION_NAME}`;
-                config.user = process.env[appConfig.username];
-                config.password = process.env[appConfig.password];
-                config.database = process.env[appConfig.database];
-                break;
-                // Local
             default:
-                console.log("Using Local DB");
                 // get common stuff
                 config = appConfig;
-                // override env variable items
+                // override env variable items for sensitve data
                 config.user = process.env[appConfig.username];
                 config.password = process.env[appConfig.password];
                 config.database = process.env[appConfig.database];
+
+                // If instance connection env var exists, use google cloud socket DB
+                if (appConfig.INSTANCE_CONNECTION_NAME) {
+                    console.log("Using GCP DB");
+                    config.socketPath = `/cloudsql/${process.env.INSTANCE_CONNECTION_NAME}`;
+                } else {
+                    console.log("Using Local DB");
+                }
                 break;
         }
-        
+
         this.logConnection(config);
         this.startConnection(config);
     }
