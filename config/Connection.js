@@ -20,23 +20,23 @@ class Connection {
                 // GCP DB on Google Cloud
             case "INSTANCE_CONNECTION_NAME":
                 console.log("Using GCP DB");
-                config = {
-                    socketPath: `/cloudsql/${process.env.INSTANCE_CONNECTION_NAME}`,
-                    user: process.env[appConfig.username],
-                    password: process.env[appConfig.password],
-                    database: process.env[appConfig.database]
-                };
+                // get common stuff
+                config = appConfig;
+                // override env variable items
+                config.socketPath = `/cloudsql/${process.env.INSTANCE_CONNECTION_NAME}`;
+                config.user = process.env[appConfig.username];
+                config.password = process.env[appConfig.password];
+                config.database = process.env[appConfig.database];
                 break;
                 // Local
             default:
                 console.log("Using Local DB");
-                config = {
-                    host: appConfig.host,
-                    port: appConfig.port,
-                    user: process.env[appConfig.username],
-                    password: process.env[appConfig.password],
-                    database: process.env[appConfig.database]
-                };
+                // get common stuff
+                config = appConfig;
+                // override env variable items
+                config.user = process.env[appConfig.username];
+                config.password = process.env[appConfig.password];
+                config.database = process.env[appConfig.database];
                 break;
         }
         
