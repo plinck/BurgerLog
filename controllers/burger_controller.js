@@ -9,7 +9,7 @@ const path = require('path');
 const router = express.Router();
 
 // Create an instance of burger
-const Burger = require(path.join(__dirname, `/../model/Burger.js`));
+const Burger = require(path.join(__dirname, `/../models/Burger.js`));
 const burger = new Burger();
 
 // Default Route
