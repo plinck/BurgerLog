@@ -15,6 +15,7 @@ resources:
 # The following env variables may contain sensitive information that grants
 # anyone access to your database. Do not add this file to your source control.
 env_variables:
+  NODE_ENV: production
   SQL_USER: root
   SQL_PASSWORD: password
   SQL_DATABASE: burger_db

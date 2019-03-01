@@ -1,40 +1,51 @@
 const mysql = require('mysql');
 require("dotenv").config();
+let env = process.env.NODE_ENV || 'development';
+// All configurations
+let appConfigs = require(__dirname + '/config.js');
 
 class Connection {
     constructor() {
+        // get specific config sections from all configs
+        const appConfig = appConfigs[env];
         let config;
-        if (process.env.JAWSDB_URL) {
-            // Connection is JawsDB on Heroku
-            console.log("Using JAWSDB");
-            config = process.env.JAWSDB_URL;
-            // Google Cloud Platform Connection
-        } else if (process.env.INSTANCE_CONNECTION_NAME) {
-            console.log("Using GCP DB");
-            config = {
-                socketPath: `/cloudsql/${process.env.INSTANCE_CONNECTION_NAME}`,
-                user: process.env.SQL_USER,
-                password: process.env.SQL_PASSWORD,
-                database: process.env.SQL_DATABASE
-            };
-            // Local DB Connection
-        } else {
-            // Connection is local
-            console.log("Using Local DB");
-            config = {
-                host: "localhost",
-                port: 3306,
-                user: process.env.SQL_USER,
-                password: process.env.SQL_PASSWORD,
-                database: process.env.SQL_DATABASE
-            };
+
+        // test if env var is used for part of config
+        switch (appConfig.use_env_variable) {
+            // Jaws DB on Heroku only needs config var
+            case "JAWSDB_URL":
+                config = process.env[appConfig.use_env_variable];
+                console.log("Using JAWSDB");
+                break;
+                // GCP DB on Google Cloud
+            case "INSTANCE_CONNECTION_NAME":
+                console.log("Using GCP DB");
+                config = {
+                    socketPath: `/cloudsql/${process.env.INSTANCE_CONNECTION_NAME}`,
+                    user: appConfig.username,
+                    password: appConfig.password,
+                    database: appConfig.database
+                };
+                break;
+                // Local
+            default:
+                console.log("Using Local DB");
+                config = {
+                    host: appConfig.host,
+                    port: appConfig.port,
+                    user: appConfig.username,
+                    password: appConfig.password,
+                    database: appConfig.database
+                };
+                break;
         }
+        
         this.logConnection(config);
         this.startConnection(config);
     }
 
     logConnection(config) {
-        console.log(`Connection: ${JSON.stringify(config)}`);
+        console.log(`Config: ${JSON.stringify(config)}`);
     }
 
     // This method restarts the connection when it fals.  The connectionn GCP got corrupted
